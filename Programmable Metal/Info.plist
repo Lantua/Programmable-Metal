@@ -10,7 +10,7 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>com.unnon.persistent-metal</string>
+			<string>Persistent Metal Database</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -23,12 +23,12 @@
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
+			<key>CFBundleTypeName</key>
+			<string>Metal Libraries</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
 			<key>LSHandlerRank</key>
 			<string>None</string>
-			<key>CFBundleTypeName</key>
-			<string>com.unnon.metal-library</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.unnon.metal-library</string>
@@ -40,7 +40,7 @@
 			<key>CFBundleTypeName</key>
 			<string>Images</string>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
+            <string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
@@ -88,24 +88,6 @@
 	</array>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
-	<key>UTImportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Metal Library</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.unnon.metal-library</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>metallib</string>
-			</dict>
-		</dict>
-	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -121,6 +103,24 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>pmetal</string>
+			</dict>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Metal Library</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.unnon.metal-library</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>metallib</string>
 			</dict>
 		</dict>
 	</array>
