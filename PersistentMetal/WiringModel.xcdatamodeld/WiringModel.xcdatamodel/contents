@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Buffer" representedClassName="Buffer" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="group" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="length" attributeType="Integer 32" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="rawResourceOptions" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="entries" toMany="YES" deletionRule="Cascade" destinationEntity="BufferEntry" inverseName="buffer" inverseEntity="BufferEntry" syncable="YES"/>
+    </entity>
+    <entity name="BufferEntry" representedClassName="BufferEntry" syncable="YES" codeGenerationType="class">
+        <attribute name="index" attributeType="Integer 16" minValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="offset" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="buffer" maxCount="1" deletionRule="Nullify" destinationEntity="Buffer" inverseName="entries" inverseEntity="Buffer" syncable="YES"/>
+        <relationship name="computation" maxCount="1" deletionRule="Nullify" destinationEntity="Computation" inverseName="bufferEntries" inverseEntity="Computation" syncable="YES"/>
+    </entity>
+    <entity name="Computation" representedClassName="Computation" syncable="YES" codeGenerationType="class">
+        <attribute name="gDepth" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="gHeight" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="group" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="gWidth" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="tgDepth" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="tgHeight" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="tgWidth" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="bufferEntries" toMany="YES" deletionRule="Cascade" destinationEntity="BufferEntry" inverseName="computation" inverseEntity="BufferEntry" syncable="YES"/>
+        <relationship name="functionID" maxCount="1" deletionRule="Nullify" destinationEntity="FunctionID" inverseName="computations" inverseEntity="FunctionID" syncable="YES"/>
+        <relationship name="textureEntries" toMany="YES" deletionRule="Cascade" destinationEntity="TextureEntry" inverseName="computation" inverseEntity="TextureEntry" syncable="YES"/>
+    </entity>
+    <entity name="FunctionID" representedClassName="FunctionID" syncable="YES" codeGenerationType="class">
+        <attribute name="group" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <relationship name="computations" toMany="YES" deletionRule="Deny" destinationEntity="Computation" inverseName="functionID" inverseEntity="Computation" syncable="YES"/>
+    </entity>
+    <entity name="Texture" representedClassName="Texture" syncable="YES" codeGenerationType="class">
+        <attribute name="arrayLength" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="depth" attributeType="Integer 32" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="group" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="height" attributeType="Integer 32" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="mipmapLevelCount" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="rawPixelFormat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawResourceOptions" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawStorageMode" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawType" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawUsage" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sampleCount" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="width" attributeType="Integer 32" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="entries" toMany="YES" deletionRule="Cascade" destinationEntity="TextureEntry" inverseName="texture" inverseEntity="TextureEntry" syncable="YES"/>
+    </entity>
+    <entity name="TextureEntry" representedClassName="TextureEntry" syncable="YES" codeGenerationType="class">
+        <attribute name="index" attributeType="Integer 16" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="computation" maxCount="1" deletionRule="Nullify" destinationEntity="Computation" inverseName="textureEntries" inverseEntity="Computation" syncable="YES"/>
+        <relationship name="texture" maxCount="1" deletionRule="Nullify" destinationEntity="Texture" inverseName="entries" inverseEntity="Texture" syncable="YES"/>
+    </entity>
+    <fetchRequest name="BufferByLength" entity="Buffer" predicateString="length &gt;= $LENGTH" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="BufferByName" entity="Buffer" predicateString="group == $GROUP AND name == $NAME" fetchLimit="1" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="ComputationGroup" entity="Computation" predicateString="group == $GROUP" includeSubentities="YES" includePropertyValues="YES"/>
+    <fetchRequest name="ComputationUsingBuffer" entity="Computation" predicateString="Any bufferEntries.buffer == $BUFFER" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="ComputationUsingFunction" entity="Computation" predicateString="functionID == $VALUE" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="ComputationUsingTexture" entity="Computation" predicateString="Any textureEntries.texture == $TEXTURE" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="FunctionOfGroup" entity="FunctionID" predicateString="group == $GROUP" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="TextureByName" entity="Texture" predicateString="group == $GROUP AND name == $NAME" fetchLimit="1" returnObjectsAsFaults="YES"/>
+    <fetchRequest name="TextureByType" entity="Texture" predicateString="rawType = $TYPE" returnObjectsAsFaults="YES"/>
+    <elements>
+        <element name="Buffer" positionX="-18" positionY="90" width="128" height="135"/>
+        <element name="BufferEntry" positionX="18" positionY="108" width="128" height="105"/>
+        <element name="Computation" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="FunctionID" positionX="-54" positionY="18" width="128" height="90"/>
+        <element name="Texture" positionX="-36" positionY="81" width="128" height="255"/>
+        <element name="TextureEntry" positionX="0" positionY="99" width="128" height="90"/>
+    </elements>
+</model>

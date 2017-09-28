@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>PersistentMetal.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Programmable Metal.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>F76DC4131F7CFEBF006E11F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F76DC42B1F7CFEBF006E11F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F76DC4361F7CFEBF006E11F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F76DC4551F7CFF10006E11F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
