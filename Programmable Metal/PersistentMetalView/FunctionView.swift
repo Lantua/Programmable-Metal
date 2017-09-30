@@ -43,13 +43,16 @@ class FunctionListViewController: ListViewController {
             undeletable.forEach { $0.group = "*" }
             alert(message: "Functions in used are moved to `*` group.", title: "Unable to delete \(undeletableCount) functions", current: self)
         }
+        
+        try! controller.performFetch()
+        tableView.reloadData()
     }
     
     override var entityName: String { return FunctionID.entity().name! }
     override var sortPrecedence: [String] { return ["group", "name"] }
-    override func initController(context: NSManagedObjectContext, fetchRequest: NSFetchRequest<NSManagedObject>) {
+    override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["computations"]
-        super.initController(context: context, fetchRequest: fetchRequest)
+        super.initFetchRequest(fetchRequest)
     }
     override func decorate(_ cell: UITableViewCell, with function: NSFetchRequestResult) {
         let function = function as! FunctionID
@@ -100,7 +103,7 @@ class FunctionDetailViewController: UITableViewController, DetailViewController 
         switch identifier {
         case "ListComputation":
             let destination = segue.destination as! ComputationListViewController
-            destination.initController(context: context, function: temp)
+            destination.initFetchRequest(function: temp)
         case "Done": break
         default: fatalError()
         }

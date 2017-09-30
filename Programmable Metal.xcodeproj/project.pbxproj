@@ -285,11 +285,11 @@
 		F76DC4961F7D028E006E11F6 /* PersistentMetalView */ = {
 			isa = PBXGroup;
 			children = (
-				F76DC4971F7D028E006E11F6 /* ListViewController.swift */,
 				F76DC4981F7D028E006E11F6 /* DocumentSubviewController.swift */,
+				F76DC4971F7D028E006E11F6 /* ListViewController.swift */,
+				F76DC49B1F7D028E006E11F6 /* PickerDelegates.swift */,
 				F76DC4991F7D028E006E11F6 /* PersistentMetal.storyboard */,
 				F76DC49A1F7D028E006E11F6 /* ComputationView.swift */,
-				F76DC49B1F7D028E006E11F6 /* PickerDelegates.swift */,
 				F76DC49C1F7D028E006E11F6 /* FunctionView.swift */,
 				F76DC49D1F7D028E006E11F6 /* TextureView.swift */,
 				F76DC49E1F7D028E006E11F6 /* BufferView.swift */,

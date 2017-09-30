@@ -26,14 +26,17 @@ class TextureListViewController: ListViewController {
     }
     override var entityName: String { return Texture.entity().name! }
     override var sortPrecedence: [String] { return ["group", "name"] }
-    override func initController(context: NSManagedObjectContext, fetchRequest: NSFetchRequest<NSManagedObject>) {
+    override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["entries"]
-        super.initController(context: context, fetchRequest: fetchRequest)
+        super.initFetchRequest(fetchRequest)
     }
     override func decorate(_ cell: UITableViewCell, with texture: NSFetchRequestResult) {
         let texture = texture as! Texture
         cell.textLabel!.text = texture.name
         cell.detailTextLabel?.text = String(texture.entries!.count)
+    }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return (controller.object(at: indexPath) as! Texture).entries!.count == 0
     }
 }
 
@@ -122,7 +125,7 @@ class TextureDetailViewController: UITableViewController, DetailViewController {
         switch identifier {
         case "ListComputation":
             let destination = segue.destination as! ComputationListViewController
-            destination.initController(context: context, texture: temp)
+            destination.initFetchRequest(texture: temp)
         case "Done": break
         default: fatalError()
         }

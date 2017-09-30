@@ -27,14 +27,17 @@ class BufferListViewController: ListViewController {
     }
     override var entityName: String { return Buffer.entity().name! }
     override var sortPrecedence: [String] { return ["group", "name"] }
-    override func initController(context: NSManagedObjectContext, fetchRequest: NSFetchRequest<NSManagedObject>) {
+    override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["entries"]
-        super.initController(context: context, fetchRequest: fetchRequest)
+        super.initFetchRequest(fetchRequest)
     }
     override func decorate(_ cell: UITableViewCell, with buffer: NSFetchRequestResult) {
         let buffer = buffer as! Buffer
         cell.textLabel!.text = buffer.name
         cell.detailTextLabel?.text = String(buffer.entries!.count)
+    }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return (controller.object(at: indexPath) as! Buffer).entries!.count == 0
     }
 }
 
@@ -88,7 +91,7 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
         switch identifier {
         case "ListComputation":
             let destination = segue.destination as! ComputationListViewController
-            destination.initController(context: context, buffer: temp)
+            destination.initFetchRequest(buffer: temp)
         case "Done": break
         default: fatalError()
         }

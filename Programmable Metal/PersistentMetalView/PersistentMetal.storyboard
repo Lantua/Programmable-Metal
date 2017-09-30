@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -106,10 +107,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="I4d-LO-xxO" kind="presentation" identifier="Edit" id="5UE-xA-dYh">
-                                        <segue key="commit" inheritsFrom="parent" id="bBI-ev-yXN"/>
-                                        <segue key="preview" inheritsFrom="commit" id="MLv-p1-ffu"/>
-                                    </segue>
+                                    <segue destination="I4d-LO-xxO" kind="presentation" identifier="Edit" id="5UE-xA-dYh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -124,12 +122,19 @@
                                 <segue destination="4Ws-ab-ewk" kind="unwind" identifier="Save" unwindAction="save:" id="ZL8-9a-1Yy"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="MOP-zg-u21">
-                            <connections>
-                                <action selector="refresh:" destination="4Pq-tY-DGP" id="kZr-J3-mKu"/>
-                                <segue destination="I4d-LO-xxO" kind="presentation" identifier="Add" id="jbo-WK-0tw"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="MOP-zg-u21">
+                                <connections>
+                                    <action selector="refresh:" destination="4Pq-tY-DGP" id="kZr-J3-mKu"/>
+                                    <segue destination="I4d-LO-xxO" kind="presentation" identifier="Add" id="jbo-WK-0tw"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="edit" id="gne-jD-FUB">
+                                <connections>
+                                    <action selector="toggleEditing:" destination="TvY-1c-A0L" id="el9-5q-kQU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m46-iP-3Pr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -515,9 +520,6 @@
                         <outlet property="groupCell" destination="5A2-dz-XpR" id="tIY-L0-ei4"/>
                         <outlet property="name" destination="Eb3-Io-AQ1" id="vn3-BX-1eB"/>
                         <outlet property="nameCell" destination="nJg-8f-lU5" id="IPl-bd-31Y"/>
-                        <outlet property="order" destination="vW9-qC-bIF" id="PFd-kX-nM9"/>
-                        <outlet property="orderCell" destination="Xfa-us-Nie" id="Ne4-FW-vYt"/>
-                        <outlet property="orderLabel" destination="ep1-zb-geq" id="zeU-9s-cja"/>
                         <outlet property="threadgroupCell" destination="SPr-ZX-qka" id="Dzx-sF-qgM"/>
                         <outlet property="threadgroupDepth" destination="LOj-ZN-EIQ" id="RD7-Zf-1xF"/>
                         <outlet property="threadgroupHeight" destination="22K-Sk-7Oa" id="R7u-52-fgq"/>
@@ -573,7 +575,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <action selector="groupDidChange:" destination="RHS-ch-BhI" eventType="editingDidEnd" id="Gw1-WQ-2zz"/>
                                     <outlet property="delegate" destination="RHS-ch-BhI" id="9gx-Vz-rZH"/>
@@ -740,7 +742,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <action selector="nameDidChange:" destination="RHS-ch-BhI" eventType="editingDidEnd" id="KPb-dF-c1I"/>
                                     <outlet property="delegate" destination="RHS-ch-BhI" id="AMd-Oo-OBH"/>
@@ -755,42 +757,6 @@
                             <constraint firstItem="Eb3-Io-AQ1" firstAttribute="centerY" secondItem="MJ4-Em-C2l" secondAttribute="centerY" id="tV1-S7-zP0"/>
                             <constraint firstItem="Eb3-Io-AQ1" firstAttribute="leading" secondItem="MJ4-Em-C2l" secondAttribute="leading" priority="500" constant="170" id="wPx-NN-fIJ"/>
                             <constraint firstItem="0lB-2C-J6y" firstAttribute="centerY" secondItem="MJ4-Em-C2l" secondAttribute="centerY" id="xrr-xR-jlY"/>
-                        </constraints>
-                    </tableViewCellContentView>
-                </tableViewCell>
-                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Xfa-us-Nie">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xfa-us-Nie" id="ZGh-PL-fMD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nod-xH-aRH">
-                                <rect key="frame" x="8" y="12" width="45" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-32767" maximumValue="32768" translatesAutoresizingMaskIntoConstraints="NO" id="vW9-qC-bIF">
-                                <rect key="frame" x="273" y="8" width="94" height="29"/>
-                                <connections>
-                                    <action selector="orderDidChange:" destination="RHS-ch-BhI" eventType="valueChanged" id="bzV-sc-l6i"/>
-                                </connections>
-                            </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ep1-zb-geq">
-                                <rect key="frame" x="223" y="12" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="vW9-qC-bIF" secondAttribute="trailing" id="1Ll-eb-c17"/>
-                            <constraint firstItem="nod-xH-aRH" firstAttribute="leading" secondItem="ZGh-PL-fMD" secondAttribute="leadingMargin" id="4S8-1n-vv0"/>
-                            <constraint firstItem="vW9-qC-bIF" firstAttribute="centerY" secondItem="ZGh-PL-fMD" secondAttribute="centerY" id="Acp-ys-8f1"/>
-                            <constraint firstItem="vW9-qC-bIF" firstAttribute="leading" secondItem="ep1-zb-geq" secondAttribute="trailing" constant="8" symbolic="YES" id="bi6-hG-JRD"/>
-                            <constraint firstItem="nod-xH-aRH" firstAttribute="centerY" secondItem="ZGh-PL-fMD" secondAttribute="centerY" id="fpb-sW-ZP4"/>
-                            <constraint firstItem="ep1-zb-geq" firstAttribute="centerY" secondItem="ZGh-PL-fMD" secondAttribute="centerY" id="xPQ-mH-YOM"/>
                         </constraints>
                     </tableViewCellContentView>
                 </tableViewCell>

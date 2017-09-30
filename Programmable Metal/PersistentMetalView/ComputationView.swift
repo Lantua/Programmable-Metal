@@ -18,7 +18,7 @@ class BufferCell: UITableViewCell {
 
 private enum Section: Int {
     enum SettingEntry: Int {
-        case group = 0, name, order, function
+        case group = 0, name, function
         static var count: Int { return function.rawValue + 1 }
     }
     enum SizeEntry: Int {
@@ -31,21 +31,59 @@ private enum Section: Int {
 
 class ComputationListViewController: ListViewController {
     @IBAction func editedComputation(_ segue: UIStoryboardSegue) { }
+    @IBAction func toggleEditing(_ sender: Any) {
+        setEditing(!isEditing, animated: true)
+    }
     
     override var entityName: String { return Computation.entity().name! }
     override var sortPrecedence: [String] { return ["group", "order"] }
-    override func initController(context: NSManagedObjectContext, fetchRequest: NSFetchRequest<NSManagedObject>) {
+    override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["functionID"]
-        super.initController(context: context, fetchRequest: fetchRequest)
+        super.initFetchRequest(fetchRequest)
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let computation = controller.object(at: indexPath) as! Computation
+        if computation.order != indexPath.row {
+            computation.order = Int16(indexPath.row)
+        }
+        let result = super.tableView(tableView, cellForRowAt: indexPath)
+        return result
     }
     override func decorate(_ cell: UITableViewCell, with computation: NSFetchRequestResult) {
         let computation = computation as! Computation
-        if let name = computation.name {
-            cell.textLabel!.text = "\(computation.order)) \(name)"
-        }
+        cell.textLabel!.text = computation.name
         if let function = computation.functionID {
             cell.detailTextLabel!.text = "\(function.name!):\(function.group!)"
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool { return true }
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        switch (sourceIndexPath.section, proposedDestinationIndexPath.section) {
+        case let (s, d) where s < d: return IndexPath(row: self.tableView(tableView, numberOfRowsInSection: s) - 1, section: s)
+        case let (s, d) where s > d: return IndexPath(row: 0, section: s)
+        case let (s, d) where s == d: return proposedDestinationIndexPath
+        default: fatalError()
+        }
+    }
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        assert(sourceIndexPath.section == destinationIndexPath.section)
+        let section = sourceIndexPath.section
+        let sourceRow = sourceIndexPath.row, destinationRow = destinationIndexPath.row
+        let range = min(sourceRow, destinationRow)...max(sourceRow, destinationRow)
+        var computations = range.map { controller.object(at: IndexPath(row: $0, section: section)) as! Computation }
+        
+        if sourceRow < destinationRow {
+            computations = Array(computations.dropFirst()) + [computations.first!]
+        } else {
+            computations = [computations.last!] + Array(computations.dropLast())
+        }
+        
+        for (row, computation) in zip(range, computations) {
+            computation.order = Int16(row)
+        }
+        
+        try! controller.performFetch()
     }
 }
 
@@ -61,7 +99,6 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
     
     @IBOutlet var groupCell: UITableViewCell!
     @IBOutlet var nameCell: UITableViewCell!
-    @IBOutlet var orderCell: UITableViewCell!
     @IBOutlet var functionCell: UITableViewCell!
     
     @IBOutlet var threadgroupCell: UITableViewCell!
@@ -69,8 +106,6 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
     
     @IBOutlet weak var group: UITextField!
     @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var order: UIStepper!
-    @IBOutlet weak var orderLabel: UILabel!
     
     @IBOutlet weak var threadgroupWidth: UITextField!
     @IBOutlet weak var threadgroupHeight: UITextField!
@@ -87,8 +122,6 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
         
         group.text = temp.group
         name.text = temp.name
-        order.value = Double(temp.order)
-        orderLabel.text = String(temp.order)
         if let function = temp.functionID {
             functionCell.detailTextLabel!.text = "\(function.name!):\(function.group!)"
         } else {
@@ -113,17 +146,17 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
             let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
             let (requirement, _) = textureEntry(at: indexPath.row)
             let destination = segue.destination as! TextureListViewController
-            destination.initController(context: context, requirement: requirement)
+            destination.initFetchRequest(requirement: requirement)
             destination.navigationItem.title = "Select \(requirement.name)"
         case "ListBuffer":
             let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
             let (requirement, _) = bufferEntry(at: indexPath.row)
             let destination = segue.destination as! BufferListViewController
-            destination.initController(context: context, requirement: requirement)
+            destination.initFetchRequest(requirement: requirement)
             destination.navigationItem.title = "Select \(requirement.name)"
          case "ListFunction":
             let destination = segue.destination as! FunctionListViewController
-            destination.initController(context: context, fetchRequest: FunctionID.fetchRequest() as NSFetchRequest<FunctionID> as! NSFetchRequest<NSManagedObject>)
+            destination.initFetchRequest(FunctionID.fetchRequest() as NSFetchRequest<FunctionID> as! NSFetchRequest<NSManagedObject>)
         case "Done": break
         default: fatalError()
         }
@@ -209,7 +242,6 @@ extension ComputationDetailViewController {
         switch (indexPath.row, Section(rawValue: indexPath.section)!) {
         case (Section.SettingEntry.group.rawValue, .settings): return groupCell
         case (Section.SettingEntry.name.rawValue, .settings): return nameCell
-        case (Section.SettingEntry.order.rawValue, .settings): return orderCell
         case (Section.SettingEntry.function.rawValue, .settings): return functionCell
         case (_, .settings): fatalError()
         case (Section.SizeEntry.threadgroup.rawValue, .size): return threadgroupCell
@@ -259,7 +291,7 @@ extension ComputationDetailViewController {
     }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let cell = tableView.cellForRow(at: indexPath)!
+            let cell = tableView.cellForRow(at: indexPath)
             
             let section = Section(rawValue: indexPath.section)!
             assert([Section.texture, .buffer].contains(Section(rawValue: indexPath.section)!))
@@ -268,14 +300,14 @@ extension ComputationDetailViewController {
             switch section {
             case .texture:
                 entry = textureEntry(at: indexPath.row).1
-                cell.detailTextLabel!.text = ""
+                cell?.detailTextLabel?.text = ""
             case .buffer:
                 entry = bufferEntry(at: indexPath.row).1
-                if let offset = (tableView.cellForRow(at: indexPath) as! BufferCell?)?.offset {
-                    offset.text = "-"
-                    offset.isEnabled = false
+                if let cell = cell as! BufferCell? {
+                    cell.offset.text = "-"
+                    cell.offset.isEnabled = false
+                    cell.detailLabel.text = ""
                 }
-                (cell as! BufferCell).detailLabel.text = ""
             default: fatalError()
             }
             if let entry = entry {
@@ -303,11 +335,6 @@ extension ComputationDetailViewController {
 extension ComputationDetailViewController {
     @IBAction func groupDidChange(_ sender: UITextField) { temp.group = sender.text }
     @IBAction func nameDidChange(_ sender: UITextField) { temp.name = sender.text }
-    @IBAction func orderDidChange(_ sender: UIStepper) {
-        orderLabel.text = String(Int32(sender.value))
-        temp.order = Int16(sender.value)
-        tableView.endEditing(true)
-    }
     @IBAction func bufferOffsetDidChange(_ offset: UITextField) {
         guard let index = tableView.indexPath(for: offset.superview!.superview! as! BufferCell) else {
             return

@@ -33,15 +33,14 @@ class DocumentTabBarController: UITabBarController, DocumentPivotalSubviewContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let entityNames = ["Computation", "Texture", "Buffer", "FunctionID"]
-        for (entityName, navigationController) in zip(entityNames, viewControllers! as! [DocumentNavigationController]) {
+        for navigationController in viewControllers! as! [DocumentNavigationController] {
             navigationController.document = document
 
             let listController = navigationController.topViewController! as! ListViewController
-            let fetchRequest = NSFetchRequest(entityName: entityName) as NSFetchRequest<NSManagedObject>
+            let fetchRequest = NSFetchRequest(entityName: listController.entityName) as NSFetchRequest<NSManagedObject>
             fetchRequest.resultType = .managedObjectResultType
             fetchRequest.returnsObjectsAsFaults = true
-            listController.initController(context: context, fetchRequest: fetchRequest)
+            listController.initFetchRequest(fetchRequest)
         }
     }
 }
