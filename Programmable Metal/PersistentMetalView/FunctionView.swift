@@ -54,7 +54,7 @@ class FunctionListViewController: ListViewController {
         fetchRequest.relationshipKeyPathsForPrefetching = ["computations"]
         super.initFetchRequest(fetchRequest)
     }
-    override func decorate(_ cell: UITableViewCell, with function: NSFetchRequestResult) {
+    override func decorate(_ cell: UITableViewCell, with function: NSManagedObject) {
         let function = function as! FunctionID
         cell.textLabel!.text = function.name
         cell.detailTextLabel!.text = String(function.computations!.count)
@@ -85,6 +85,8 @@ class FunctionDetailViewController: UITableViewController, DetailViewController 
         set { temp = newValue as! FunctionID }
     }
 
+    @IBOutlet weak var group: UITableViewCell!
+    @IBOutlet weak var name: UITableViewCell!
     @IBOutlet weak var threadExecutionWidthCell: UITableViewCell!
     @IBOutlet weak var maxThreadPerThreadGroupCell: UITableViewCell!
     
@@ -92,6 +94,8 @@ class FunctionDetailViewController: UITableViewController, DetailViewController 
         super.viewDidLoad()
         
         title = temp.name
+        group.detailTextLabel!.text = temp.group
+        name.detailTextLabel!.text = temp.name
         if let unmanaged = functionCache.pipelineState(for: temp) {
             threadExecutionWidthCell.detailTextLabel!.text = String(unmanaged.maxTotalThreadsPerThreadgroup)
             maxThreadPerThreadGroupCell.detailTextLabel!.text = String(unmanaged.threadExecutionWidth)

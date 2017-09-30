@@ -37,7 +37,7 @@ class DocumentTabBarController: UITabBarController, DocumentPivotalSubviewContro
             navigationController.document = document
 
             let listController = navigationController.topViewController! as! ListViewController
-            let fetchRequest = NSFetchRequest(entityName: listController.entityName) as NSFetchRequest<NSManagedObject>
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: listController.entityName)
             fetchRequest.resultType = .managedObjectResultType
             fetchRequest.returnsObjectsAsFaults = true
             listController.initFetchRequest(fetchRequest)

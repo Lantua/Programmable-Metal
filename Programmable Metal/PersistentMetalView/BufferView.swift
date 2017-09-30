@@ -13,12 +13,16 @@ import Metal
 
 class BufferListViewController: ListViewController {
     var requirement: BufferRequirement?
-    @IBAction func editedBuffer(_ segue: UIStoryboardSegue) { }
+    @IBAction func editedBuffer(_ segue: UIStoryboardSegue) {
+        if requirement != nil {
+            performSegue(withIdentifier: "Select", sender: (segue.source as! BufferDetailViewController).temp)
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
 
-        (segue as? BufferSegue)?.buffer = controller.object(at: tableView.indexPathForSelectedRow!) as! Buffer
+        (segue as? BufferSegue)?.buffer = (sender as? Buffer) ?? controller.object(at: tableView.indexPathForSelectedRow!) as! Buffer
         
         if let requirement = requirement, segue.identifier == "Add" || segue.identifier == "Edit" {
             let destination = segue.destination as! BufferDetailViewController
@@ -31,7 +35,7 @@ class BufferListViewController: ListViewController {
         fetchRequest.relationshipKeyPathsForPrefetching = ["entries"]
         super.initFetchRequest(fetchRequest)
     }
-    override func decorate(_ cell: UITableViewCell, with buffer: NSFetchRequestResult) {
+    override func decorate(_ cell: UITableViewCell, with buffer: NSManagedObject) {
         let buffer = buffer as! Buffer
         cell.textLabel!.text = buffer.name
         cell.detailTextLabel?.text = String(buffer.entries!.count)
@@ -75,6 +79,7 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        title = temp.name
         group.text = temp.group
         name.text = temp.name
         length.text = String(temp.length)
@@ -105,7 +110,10 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
 
 extension BufferDetailViewController {
     @IBAction func groupChanged(_ sender: UITextField) { temp.group = sender.text }
-    @IBAction func nameChanged(_ sender: UITextField) { temp.name = sender.text }
+    @IBAction func nameChanged(_ sender: UITextField) {
+        temp.name = sender.text
+        title = temp.name
+    }
     @IBAction func lengthChanged(_ sender: UITextField) {        
         let validator: (Int32) -> Int32 = {
             if let requirement = self.requirement, requirement.length > $0 {

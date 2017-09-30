@@ -12,12 +12,16 @@ import PersistentMetal
 
 class TextureListViewController: ListViewController {
     var requirement: TextureRequirement?
-    @IBAction func editedTexture(_ segue: UIStoryboardSegue) { }
+    @IBAction func editedTexture(_ segue: UIStoryboardSegue) {
+        if requirement != nil {
+            performSegue(withIdentifier: "Select", sender: (segue.source as! TextureDetailViewController).temp!)
+        }
+    }
     
     override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        (segue as? TextureSegue)?.texture = controller.object(at: tableView.indexPathForSelectedRow!) as! Texture
+        (segue as? TextureSegue)?.texture = (sender as? Texture) ?? controller.object(at: tableView.indexPathForSelectedRow!) as! Texture
         
         if let requirement = requirement, segue.identifier == "Add" || segue.identifier == "Edit" {
             let destination = segue.destination as! TextureDetailViewController
@@ -30,7 +34,7 @@ class TextureListViewController: ListViewController {
         fetchRequest.relationshipKeyPathsForPrefetching = ["entries"]
         super.initFetchRequest(fetchRequest)
     }
-    override func decorate(_ cell: UITableViewCell, with texture: NSFetchRequestResult) {
+    override func decorate(_ cell: UITableViewCell, with texture: NSManagedObject) {
         let texture = texture as! Texture
         cell.textLabel!.text = texture.name
         cell.detailTextLabel?.text = String(texture.entries!.count)
@@ -94,6 +98,7 @@ class TextureDetailViewController: UITableViewController, DetailViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        title = temp.name
         group.text = temp.group
         name.text = temp.name
         do {
@@ -139,7 +144,10 @@ class TextureDetailViewController: UITableViewController, DetailViewController {
 
 extension TextureDetailViewController {
     @IBAction func groupDidChange(_ sender: UITextField) { temp.group = sender.text }
-    @IBAction func nameDidChange(_ sender: UITextField) { temp.name = sender.text }
+    @IBAction func nameDidChange(_ sender: UITextField) {
+        temp.name = sender.text
+        title = temp.name
+    }
     @IBAction func widthDidChange(_ sender: UITextField) {
         synchronize(source: Int32(sender.text!), destination: &temp.width) { sender.text = String($0) }
     }

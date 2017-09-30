@@ -279,10 +279,62 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
+                            <tableViewSection headerTitle="Identifier" id="GVN-AO-7pj">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="EQ3-Ee-zIo" detailTextLabel="FCr-x9-xha" style="IBUITableViewCellStyleValue1" id="RjE-95-bSf">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RjE-95-bSf" id="5kT-8C-wLx">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Group" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EQ3-Ee-zIo">
+                                                    <rect key="frame" x="16" y="12" width="47.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FCr-x9-xha">
+                                                    <rect key="frame" x="316" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="rLM-mg-3pq" detailTextLabel="gKt-Yu-oJ9" style="IBUITableViewCellStyleValue1" id="CSP-je-Aeh">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CSP-je-Aeh" id="PZa-ml-Ker">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rLM-mg-3pq">
+                                                    <rect key="frame" x="16" y="12" width="45" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gKt-Yu-oJ9">
+                                                    <rect key="frame" x="316" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Metadata" id="oEL-Bm-2WK">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="K7y-p5-adb" detailTextLabel="mQo-0q-bmO" style="IBUITableViewCellStyleValue1" id="SKf-CL-Iue">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SKf-CL-Iue" id="YUf-Ae-byc">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -306,7 +358,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="iKj-kG-tQt" detailTextLabel="5sO-Pi-2qn" style="IBUITableViewCellStyleValue1" id="A5X-c2-4jL">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A5X-c2-4jL" id="NBO-6j-VIH">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -334,7 +386,7 @@
                             <tableViewSection headerTitle="Links" id="ovb-zk-enC">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="KOg-9u-gyC" style="IBUITableViewCellStyleDefault" id="3vE-nQ-c1i">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="260" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3vE-nQ-c1i" id="iS4-8c-yVU">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -372,7 +424,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="group" destination="RjE-95-bSf" id="0sW-Si-GZr"/>
                         <outlet property="maxThreadPerThreadGroupCell" destination="SKf-CL-Iue" id="0J8-00-Tow"/>
+                        <outlet property="name" destination="CSP-je-Aeh" id="kJV-vj-HXQ"/>
                         <outlet property="threadExecutionWidthCell" destination="A5X-c2-4jL" id="gep-h3-6qp"/>
                     </connections>
                 </tableViewController>
@@ -1395,10 +1449,10 @@
             </objects>
             <point key="canvasLocation" x="5644" y="918"/>
         </scene>
-        <!--Function List-->
+        <!--Inner Functions-->
         <scene sceneID="DzO-hO-1kl">
             <objects>
-                <tableViewController title="Function List" id="yQV-V6-AMx" customClass="FunctionListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Inner Functions" id="yQV-V6-AMx" customClass="FunctionListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hPo-sd-8iJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1441,7 +1495,7 @@
                             <outlet property="delegate" destination="yQV-V6-AMx" id="XDJ-MV-LbW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="s2J-qn-1mQ">
+                    <navigationItem key="navigationItem" title="Functions" id="s2J-qn-1mQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="XHh-Rk-8Fb">
                             <connections>
                                 <action selector="refresh:" destination="yQV-V6-AMx" id="F1U-kl-4bj"/>
@@ -1454,10 +1508,10 @@
             </objects>
             <point key="canvasLocation" x="6838" y="-591"/>
         </scene>
-        <!--Computation List View Controller-->
+        <!--Inner Computations-->
         <scene sceneID="eBi-op-0Vk">
             <objects>
-                <tableViewController id="RbQ-1y-9wA" customClass="ComputationListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Inner Computations" id="RbQ-1y-9wA" customClass="ComputationListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="2KN-HT-OGR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1500,17 +1554,17 @@
                             <outlet property="delegate" destination="RbQ-1y-9wA" id="csS-Xc-ppW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="gYO-qZ-nQX"/>
+                    <navigationItem key="navigationItem" title="Computations" id="gYO-qZ-nQX"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAL-YV-T37" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mIb-7X-z0y" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6838" y="148"/>
         </scene>
-        <!--Texture List View Controller-->
+        <!--Inner Textures-->
         <scene sceneID="dAV-9Z-kxs">
             <objects>
-                <tableViewController id="IoF-uy-QdA" customClass="TextureListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Inner Textures" id="IoF-uy-QdA" customClass="TextureListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FWM-hp-aeR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1540,7 +1594,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="pD0-PC-pbx" kind="unwind" customClass="TextureSegue" customModule="Programmable_Metal" customModuleProvider="target" unwindAction="selectTexture:" id="Iio-TO-jhO"/>
+                                    <segue destination="pD0-PC-pbx" kind="unwind" identifier="Select" customClass="TextureSegue" customModule="Programmable_Metal" customModuleProvider="target" unwindAction="selectTexture:" id="Iio-TO-jhO"/>
                                     <segue destination="XG4-Cc-Qzb" kind="show" identifier="Edit" trigger="accessoryAction" id="sib-LS-Aaa">
                                         <segue key="commit" inheritsFrom="parent" id="fEw-8m-Co7"/>
                                         <segue key="preview" inheritsFrom="commit" id="tCT-y2-EUw"/>
@@ -1553,7 +1607,7 @@
                             <outlet property="delegate" destination="IoF-uy-QdA" id="coo-PL-Swz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="cDS-c1-AvI">
+                    <navigationItem key="navigationItem" title="Textures" id="cDS-c1-AvI">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="81x-yX-fDI">
                             <connections>
                                 <segue destination="XG4-Cc-Qzb" kind="show" identifier="Add" id="nBn-It-DgS"/>
@@ -1905,10 +1959,10 @@
             </objects>
             <point key="canvasLocation" x="5644" y="1646"/>
         </scene>
-        <!--Buffer List View Controller-->
+        <!--Inner Buffers-->
         <scene sceneID="Ckw-72-7px">
             <objects>
-                <tableViewController id="FS2-ST-ccw" customClass="BufferListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Inner Buffers" id="FS2-ST-ccw" customClass="BufferListViewController" customModule="Programmable_Metal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ugk-1A-Wnl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1938,7 +1992,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="x1O-q6-2zz" kind="unwind" customClass="BufferSegue" customModule="Programmable_Metal" customModuleProvider="target" unwindAction="selectBuffer:" id="bwN-Hi-jKl"/>
+                                    <segue destination="x1O-q6-2zz" kind="unwind" identifier="Select" customClass="BufferSegue" customModule="Programmable_Metal" customModuleProvider="target" unwindAction="selectBuffer:" id="bwN-Hi-jKl"/>
                                     <segue destination="8Rk-1J-ftf" kind="show" identifier="Edit" trigger="accessoryAction" id="y5Z-Fu-z8e">
                                         <segue key="commit" inheritsFrom="parent" id="mWl-5N-I9x"/>
                                         <segue key="preview" inheritsFrom="commit" id="EWV-cK-VwS"/>
@@ -1951,7 +2005,7 @@
                             <outlet property="delegate" destination="FS2-ST-ccw" id="7XU-A0-OfP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Lrw-MB-Yuv">
+                    <navigationItem key="navigationItem" title="Buffers" id="Lrw-MB-Yuv">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xab-v1-fs2">
                             <connections>
                                 <segue destination="8Rk-1J-ftf" kind="show" identifier="Add" id="fWS-dt-iph"/>
@@ -2119,8 +2173,8 @@
         <segue reference="5UE-xA-dYh"/>
         <segue reference="fWS-dt-iph"/>
         <segue reference="TVB-a0-N4O"/>
-        <segue reference="d3j-cI-xPR"/>
-        <segue reference="fEw-8m-Co7"/>
+        <segue reference="c63-VR-5Bv"/>
+        <segue reference="nBn-It-DgS"/>
         <segue reference="JBA-8W-HrQ"/>
         <segue reference="WXN-xr-a7d"/>
         <segue reference="iHx-Fd-COy"/>

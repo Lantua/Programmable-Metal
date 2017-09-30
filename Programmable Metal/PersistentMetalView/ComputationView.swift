@@ -31,9 +31,7 @@ private enum Section: Int {
 
 class ComputationListViewController: ListViewController {
     @IBAction func editedComputation(_ segue: UIStoryboardSegue) { }
-    @IBAction func toggleEditing(_ sender: Any) {
-        setEditing(!isEditing, animated: true)
-    }
+    @IBAction func toggleEditing(_ sender: Any) { setEditing(!isEditing, animated: true) }
     
     override var entityName: String { return Computation.entity().name! }
     override var sortPrecedence: [String] { return ["group", "order"] }
@@ -43,13 +41,11 @@ class ComputationListViewController: ListViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let computation = controller.object(at: indexPath) as! Computation
-        if computation.order != indexPath.row {
-            computation.order = Int16(indexPath.row)
-        }
+        if computation.order != indexPath.row { computation.order = Int16(indexPath.row) }
         let result = super.tableView(tableView, cellForRowAt: indexPath)
         return result
     }
-    override func decorate(_ cell: UITableViewCell, with computation: NSFetchRequestResult) {
+    override func decorate(_ cell: UITableViewCell, with computation: NSManagedObject) {
         let computation = computation as! Computation
         cell.textLabel!.text = computation.name
         if let function = computation.functionID {
@@ -120,6 +116,7 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        title = temp.name
         group.text = temp.group
         name.text = temp.name
         if let function = temp.functionID {
@@ -334,7 +331,10 @@ extension ComputationDetailViewController {
 
 extension ComputationDetailViewController {
     @IBAction func groupDidChange(_ sender: UITextField) { temp.group = sender.text }
-    @IBAction func nameDidChange(_ sender: UITextField) { temp.name = sender.text }
+    @IBAction func nameDidChange(_ sender: UITextField) {
+        temp.name = sender.text
+        title = temp.name
+    }
     @IBAction func bufferOffsetDidChange(_ offset: UITextField) {
         guard let index = tableView.indexPath(for: offset.superview!.superview! as! BufferCell) else {
             return

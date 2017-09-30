@@ -17,7 +17,7 @@ class ListViewController: UITableViewController, DocumentSubviewController {
     var controller: NSFetchedResultsController<NSManagedObject>!
     var entityName: String { fatalError("Must override this") }
     var sortPrecedence: [String] { fatalError("Must override this") }
-    func decorate(_ cell: UITableViewCell, with value: NSFetchRequestResult) { fatalError("Must Override this function") }
+    func decorate(_ cell: UITableViewCell, with value: NSManagedObject) { fatalError("Must Override this function") }
     
     override func viewDidLoad() {
         controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: sortPrecedence.first!, cacheName: nil)

@@ -43,6 +43,8 @@
 		F76DC4A51F7D028E006E11F6 /* TextureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76DC49D1F7D028E006E11F6 /* TextureView.swift */; };
 		F76DC4A61F7D028E006E11F6 /* BufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76DC49E1F7D028E006E11F6 /* BufferView.swift */; };
 		F76DC4A81F7D02FB006E11F6 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76DC4A71F7D02FB006E11F6 /* Miscellaneous.swift */; };
+		F79B01171F7FC762002E1FA9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76DC4841F7D01DD006E11F6 /* CoreData.framework */; };
+		F79B01181F7FC767002E1FA9 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76DC4821F7D01D8006E11F6 /* Metal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F79B01181F7FC767002E1FA9 /* Metal.framework in Frameworks */,
+				F79B01171F7FC762002E1FA9 /* CoreData.framework in Frameworks */,
 				F76DC4631F7CFF10006E11F6 /* PersistentMetal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
