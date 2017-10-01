@@ -43,9 +43,9 @@ public class MTLHelper {
     }
 }
 
-func validateForUpdate(_ object: NSManagedObject, from controller: UIViewController) -> Bool {
+func validate(_ validate: () throws -> (), from controller: UIViewController) -> Bool {
     do {
-        try object.validateForUpdate()
+        try validate()
     } catch {
         let error = error as NSError
         if let errors = error.userInfo[NSDetailedErrorsKey] as! [Error]? {

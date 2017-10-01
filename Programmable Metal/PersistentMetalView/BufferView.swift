@@ -29,7 +29,7 @@ class BufferListViewController: ListViewController {
             destination.requirement = requirement
         }
     }
-    override var entityName: String { return Buffer.entity().name! }
+    override var entity: NSEntityDescription { return Buffer.entity() }
     override var sortPrecedence: [String] { return ["group", "name"] }
     override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["entries"]
@@ -78,7 +78,7 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         title = temp.name
         group.text = temp.group
         name.text = temp.name
@@ -89,6 +89,10 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
 
         storageMode.text = StorageModePickerDelegate.text(resourceOptions: temp.resourceOptions)
         storageModePicker.selectRow(StorageModePickerDelegate.index(of: temp.resourceOptions), inComponent: 0, animated: false)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        if temp.managedObjectContext == nil { context.insert(temp) }
+        super.viewDidAppear(animated)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -103,7 +107,7 @@ class BufferDetailViewController: UITableViewController, DetailViewController {
     }
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         tableView.endEditing(true)
-        if identifier == "Done" && !validateForUpdate(temp, from: self) { return false }
+        if identifier == "Done" && !validate(temp.validateForUpdate, from: self) { return false }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
     }
 }

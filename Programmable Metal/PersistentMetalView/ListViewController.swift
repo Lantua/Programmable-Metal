@@ -15,19 +15,16 @@ class ListViewController: UITableViewController, DocumentSubviewController {
 
     var fetchRequest: NSFetchRequest<NSManagedObject>!
     var controller: NSFetchedResultsController<NSManagedObject>!
-    var entityName: String { fatalError("Must override this") }
+    var entity: NSEntityDescription { fatalError("Must override this") }
     var sortPrecedence: [String] { fatalError("Must override this") }
     func decorate(_ cell: UITableViewCell, with value: NSManagedObject) { fatalError("Must Override this function") }
     
     override func viewDidLoad() {
         controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: sortPrecedence.first!, cacheName: nil)
+        controller.delegate = self
+        try! controller.performFetch()
         super.viewDidLoad()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        try! controller.performFetch()
-        super.viewWillAppear(animated)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -39,7 +36,7 @@ class ListViewController: UITableViewController, DocumentSubviewController {
                 let index = tableView.indexPath(for: sender as! UITableViewCell)!
                 destination.target = controller.object(at: index)
             } else {
-                destination.target = NSEntityDescription.insertNewObject(forEntityName: entityName, into: controller.managedObjectContext)
+                destination.target = NSManagedObject(entity: entity, insertInto: nil)
             }
         }
     }
@@ -57,15 +54,7 @@ class ListViewController: UITableViewController, DocumentSubviewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { return true }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         assert(editingStyle == .delete)
-        let shouldDeleteSection = controller.sections![indexPath.section].numberOfObjects == 1
         controller.managedObjectContext.delete(controller.object(at: indexPath))
-        
-        try! controller.performFetch()
-        if shouldDeleteSection {
-            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .left)
-        } else {
-            tableView.deleteRows(at: [indexPath], with: .left)
-        }
     }
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "Save" {
@@ -82,6 +71,26 @@ class ListViewController: UITableViewController, DocumentSubviewController {
         fetchRequest.sortDescriptors = sortPrecedence.map { NSSortDescriptor(key: $0, ascending: true) }
         self.fetchRequest = fetchRequest
     }
+}
+
+extension ListViewController: NSFetchedResultsControllerDelegate {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert: tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete: tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update: tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move: if !isViewLoaded || view.window == nil || !isEditing { tableView.moveRow(at: indexPath!, to: newIndexPath!) }
+        }
+    }
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert: tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete: tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        default: fatalError()
+        }
+    }
+    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { tableView.beginUpdates() }
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) { tableView.endUpdates() }
 }
 
 extension ComputationListViewController {

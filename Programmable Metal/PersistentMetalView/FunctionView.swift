@@ -43,12 +43,9 @@ class FunctionListViewController: ListViewController {
             undeletable.forEach { $0.group = "*" }
             alert(message: "Functions in used are moved to `*` group.", title: "Unable to delete \(undeletableCount) functions", current: self)
         }
-        
-        try! controller.performFetch()
-        tableView.reloadData()
     }
     
-    override var entityName: String { return FunctionID.entity().name! }
+    override var entity: NSEntityDescription { return FunctionID.entity() }
     override var sortPrecedence: [String] { return ["group", "name"] }
     override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["computations"]
@@ -111,10 +108,5 @@ class FunctionDetailViewController: UITableViewController, DetailViewController 
         case "Done": break
         default: fatalError()
         }
-    }
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        tableView.endEditing(true)
-        if identifier == "Done" && !validateForUpdate(temp, from: self) { return false }
-        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
     }
 }

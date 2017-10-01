@@ -58,7 +58,7 @@ class FunctionCache {
         let id = id.objectID
         guard pipelineStates[id] == nil else { return }
         
-        let function = library.makeFunction(name: functionName)!
+        guard let function = library.makeFunction(name: functionName) else { return }
         var reflection: MTLComputePipelineReflection?
         let pipelineState = try! MTLHelper.device.makeComputePipelineState(function: function, options: .argumentInfo, reflection: &reflection)
         

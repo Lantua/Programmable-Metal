@@ -33,7 +33,7 @@ class ComputationListViewController: ListViewController {
     @IBAction func editedComputation(_ segue: UIStoryboardSegue) { }
     @IBAction func toggleEditing(_ sender: Any) { setEditing(!isEditing, animated: true) }
     
-    override var entityName: String { return Computation.entity().name! }
+    override var entity: NSEntityDescription { return Computation.entity() }
     override var sortPrecedence: [String] { return ["group", "order"] }
     override func initFetchRequest(_ fetchRequest: NSFetchRequest<NSManagedObject>) {
         fetchRequest.relationshipKeyPathsForPrefetching = ["functionID"]
@@ -41,7 +41,7 @@ class ComputationListViewController: ListViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let computation = controller.object(at: indexPath) as! Computation
-        if computation.order != indexPath.row { computation.order = Int16(indexPath.row) }
+        if fetchRequest == nil && computation.order != indexPath.row { computation.order = Int16(indexPath.row) }
         let result = super.tableView(tableView, cellForRowAt: indexPath)
         return result
     }
@@ -78,8 +78,6 @@ class ComputationListViewController: ListViewController {
         for (row, computation) in zip(range, computations) {
             computation.order = Int16(row)
         }
-        
-        try! controller.performFetch()
     }
 }
 
@@ -133,6 +131,10 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
         gridHeight.text = String(temp.gHeight)
         gridDepth.text = String(temp.gDepth)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        if temp.managedObjectContext == nil { context.insert(temp) }
+        super.viewDidAppear(animated)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -160,7 +162,7 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
     }
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         tableView.endEditing(true)
-        if identifier == "Done" && !validateForUpdate(temp, from: self) { return false }
+        if identifier == "Done" && !validate(temp.validateForUpdate, from: self) { return false }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
     }
     @IBAction func selectFunction(_ segue: FunctionSegue) {
@@ -190,7 +192,7 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
             entry.index = requirement.index
             entry.texture = data
         }
-        tableView.reloadData()
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
     @IBAction func selectBuffer(_ segue: BufferSegue) {
         let data = segue.buffer!, indexPath = tableView.indexPathForSelectedRow!
@@ -207,7 +209,7 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
         if entry.buffer != data {
             entry.buffer = data
         }
-        tableView.reloadData()
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }
 
