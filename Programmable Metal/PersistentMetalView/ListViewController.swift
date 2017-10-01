@@ -13,8 +13,10 @@ import PersistentMetal
 class ListViewController: UITableViewController, DocumentSubviewController {
     var document: Document! { return (navigationController as! DocumentSubviewController?)?.document }
 
-    var fetchRequest: NSFetchRequest<NSManagedObject>!
+    private var fetchRequest: NSFetchRequest<NSManagedObject>!
     var controller: NSFetchedResultsController<NSManagedObject>!
+    var isFiltered: Bool { return fetchRequest.predicate != nil }
+    
     var entity: NSEntityDescription { fatalError("Must override this") }
     var sortPrecedence: [String] { fatalError("Must override this") }
     func decorate(_ cell: UITableViewCell, with value: NSManagedObject) { fatalError("Must Override this function") }
@@ -79,7 +81,7 @@ extension ListViewController: NSFetchedResultsControllerDelegate {
         case .insert: tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .delete: tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update: tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move: if !isViewLoaded || view.window == nil || !isEditing { tableView.moveRow(at: indexPath!, to: newIndexPath!) }
+        case .move: if view.window == nil || !isEditing { tableView.moveRow(at: indexPath!, to: newIndexPath!) }
         }
     }
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
@@ -94,15 +96,9 @@ extension ListViewController: NSFetchedResultsControllerDelegate {
 }
 
 extension ComputationListViewController {
-    func initFetchRequest(function: FunctionID) {
-        initFetchRequest(FetchRequestHelper.computations(using: function))
-    }
-    func initFetchRequest(texture: Texture) {
-        initFetchRequest(FetchRequestHelper.computations(using: texture))
-    }
-    func initFetchRequest(buffer: Buffer) {
-        initFetchRequest(FetchRequestHelper.computations(using: buffer))
-    }
+    func initFetchRequest(function: FunctionID) { initFetchRequest(FetchRequestHelper.computations(using: function)) }
+    func initFetchRequest(texture: Texture) { initFetchRequest(FetchRequestHelper.computations(using: texture)) }
+    func initFetchRequest(buffer: Buffer) { initFetchRequest(FetchRequestHelper.computations(using: buffer)) }
 }
 extension TextureListViewController {
     func initFetchRequest(requirement: TextureRequirement) {

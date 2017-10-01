@@ -14,7 +14,7 @@ import Metal
 class BufferListViewController: ListViewController {
     var requirement: BufferRequirement?
     @IBAction func editedBuffer(_ segue: UIStoryboardSegue) {
-        if requirement != nil {
+        if isFiltered {
             performSegue(withIdentifier: "Select", sender: (segue.source as! BufferDetailViewController).temp)
         }
     }
@@ -129,7 +129,7 @@ extension BufferDetailViewController {
     }
     @IBAction func persistenceChanged(_ sender: UISwitch) {
         if sender.isOn != (temp.data != nil) {
-            temp.data = sender.isOn ? Data.init(count: Int(temp.length)) : nil
+            temp.data = sender.isOn ? Data(count: Int(temp.length)) : nil
         }
         tableView.endEditing(true)
     }

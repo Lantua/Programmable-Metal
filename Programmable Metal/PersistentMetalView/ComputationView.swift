@@ -41,7 +41,7 @@ class ComputationListViewController: ListViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let computation = controller.object(at: indexPath) as! Computation
-        if fetchRequest == nil && computation.order != indexPath.row { computation.order = Int16(indexPath.row) }
+        if !isFiltered && computation.order != indexPath.row { computation.order = Int16(indexPath.row) }
         let result = super.tableView(tableView, cellForRowAt: indexPath)
         return result
     }
@@ -64,19 +64,21 @@ class ComputationListViewController: ListViewController {
     }
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         assert(sourceIndexPath.section == destinationIndexPath.section)
-        let section = sourceIndexPath.section
-        let sourceRow = sourceIndexPath.row, destinationRow = destinationIndexPath.row
-        let range = min(sourceRow, destinationRow)...max(sourceRow, destinationRow)
-        var computations = range.map { controller.object(at: IndexPath(row: $0, section: section)) as! Computation }
+        let section = sourceIndexPath.section, sourceRow = sourceIndexPath.row, destinationRow = destinationIndexPath.row
+        let shiftingRange = min(sourceRow + 1, destinationRow)...max(sourceRow - 1, destinationRow)
+        let shiftingComputations = shiftingRange.map { controller.object(at: IndexPath(row: $0, section: section)) as! Computation }
+        
+        let movingComputation = controller.object(at: sourceIndexPath) as! Computation
+        movingComputation.order = Int16(destinationRow)
         
         if sourceRow < destinationRow {
-            computations = Array(computations.dropFirst()) + [computations.first!]
+            for (row, computation) in zip(shiftingRange, shiftingComputations) {
+                computation.order = Int16(row - 1)
+            }
         } else {
-            computations = [computations.last!] + Array(computations.dropLast())
-        }
-        
-        for (row, computation) in zip(range, computations) {
-            computation.order = Int16(row)
+            for (row, computation) in zip(shiftingRange, shiftingComputations).reversed() {
+                computation.order = Int16(row + 1)
+            }
         }
     }
 }
@@ -85,7 +87,6 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
     var document: Document! { return (navigationController as! DocumentNavigationController?)?.document }
     
     var temp: Computation!
-    var context: NSManagedObjectContext! { return temp?.managedObjectContext }
     var target: NSFetchRequestResult! {
         get { return temp }
         set { temp = newValue as! Computation }
@@ -155,7 +156,7 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
             destination.navigationItem.title = "Select \(requirement.name)"
          case "ListFunction":
             let destination = segue.destination as! FunctionListViewController
-            destination.initFetchRequest(FunctionID.fetchRequest() as NSFetchRequest<FunctionID> as! NSFetchRequest<NSManagedObject>)
+            destination.initFetchRequest(NSFetchRequest(entityName: FunctionID.entity().name!))
         case "Done": break
         default: fatalError()
         }
@@ -171,10 +172,10 @@ class ComputationDetailViewController: UITableViewController, DetailViewControll
             temp.functionID = newFunction
             let context = self.context
             for entry in temp.textureEntries! as! Set<TextureEntry> {
-                context!.delete(entry)
+                context.delete(entry)
             }
             for entry in temp.bufferEntries! as! Set<BufferEntry> {
-                context!.delete(entry)
+                context.delete(entry)
             }
             tableView.reloadData()
         }

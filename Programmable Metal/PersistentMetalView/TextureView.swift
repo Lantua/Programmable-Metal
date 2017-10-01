@@ -13,7 +13,7 @@ import PersistentMetal
 class TextureListViewController: ListViewController {
     var requirement: TextureRequirement?
     @IBAction func editedTexture(_ segue: UIStoryboardSegue) {
-        if requirement != nil {
+        if isFiltered {
             performSegue(withIdentifier: "Select", sender: (segue.source as! TextureDetailViewController).temp!)
         }
     }
